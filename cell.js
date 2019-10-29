@@ -1,5 +1,6 @@
 class Cell
 {
+  // Cell()
   constructor(x, y, r, c, idx)
   {
     this.x = x;
@@ -9,10 +10,12 @@ class Cell
     this.index = idx;
     this.state = "FULL";
     this.stones = [];
-  }
+  } // end Cell()
 
+  // Cell.show
   show()
   {
+    // Different colours depending on cell state
     if(this.state == "SELECTED")
     {
       push();
@@ -55,11 +58,13 @@ class Cell
         stone.update();
       }
     }
-  }
+  } // end Cell.show
 
+  // Cell.isClicked
   isClicked(x,y)
   {
+    // Mouse position projection
     return sq(this.x - x) + sq(this.y - y) < this.r*this.r;
-  }
+  } // end Cell.isClicked
 
 }
