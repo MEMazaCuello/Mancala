@@ -81,5 +81,4 @@ class Stone
     this.move();
     this.show();
   } // end Stone.update
-
 }
