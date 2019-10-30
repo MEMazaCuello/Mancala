@@ -26,9 +26,7 @@ class Player {
       i++;
       nextIdx = (idx+i)%16;
       // Pop Stone from current Cell and push it into target Cell
-      let stone = cell.stones.pop();
-      stone.setTarget(this.cells[nextIdx].x,this.cells[nextIdx].y);
-      this.cells[nextIdx].stones.push(stone);
+      this.moveStone(cell,nextIdx) // cellFrom, indexTo
       // Update target Cell state
       if(this.cells[nextIdx].state == "EMPTY" && this.cells[nextIdx].stones.length > 1)
       {
@@ -60,10 +58,7 @@ class Player {
     {
       while(cell.stones.length > 0)
       {
-        // NOTE: this is the same as lines 29-31!!!
-        let stone = cell.stones.pop();
-        stone.setTarget(this.cells[index].x,this.cells[index].y);
-        this.cells[index].stones.push(stone);
+        this.moveStone(cell,index) // cellFrom, indexTo
       }
       // This check is necessary for the cases
       // when the Cell has only 1 (one) Stone
@@ -76,10 +71,7 @@ class Player {
       cell = enemy.cells[cell.back];
       while(cell.stones.length > 0)
       {
-        // NOTE: this is the same as lines 29-31!!!
-        let stone = cell.stones.pop();
-        stone.setTarget(this.cells[index].x,this.cells[index].y);
-        this.cells[index].stones.push(stone);
+        this.moveStone(cell,index) // cellFrom, indexTo
       }
       // This check is necessary for the cases
       // when the Cell has only 1 (one) Stone
@@ -90,4 +82,13 @@ class Player {
       }
     }
   } // end Player.stealStones
+
+  // Player.moveStone
+  moveStone(cellFrom,indexTo)
+  {
+    // Pop Stone from Cell and push it into target Cell
+    let stone = cellFrom.stones.pop();
+    stone.setTarget(this.cells[indexTo].x,this.cells[indexTo].y);
+    this.cells[indexTo].stones.push(stone);
+  } // end Player.moveStone
 }
