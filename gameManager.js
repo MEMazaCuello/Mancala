@@ -8,6 +8,7 @@ class GameManager
     this.cellActive   = false;
     this.selectedCell = null;
     this.state = STATES.standby;
+    this.clickableCells = []; // array of indexes
   } // end GameManager()
 
   // GameManager.createGame
@@ -92,6 +93,8 @@ class GameManager
     }
     // Create Player A
     this.player = new Player(cells,"BLUE");
+
+    this.clickableCells = this.player.getFullCellsIdxs();
   } // end GameManager.createGame
 
   // GameManager.show
@@ -137,6 +140,8 @@ class GameManager
     let temp = this.player;
     this.player   = this.opponent;
     this.opponent = temp;
+
+    this.clickableCells = this.player.getFullCellsIdxs(); 
   } // end GameManager.changeTurn
 
   // GameManager.gameOverScreen

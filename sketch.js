@@ -21,6 +21,7 @@ function draw()
 
   if (game.isGameOver())
   {
+    game.clickableCells = [];
     noLoop();
   }
 }

@@ -96,4 +96,18 @@ class Player {
     stone.setTarget(this.cells[indexTo].x,this.cells[indexTo].y);
     this.cells[indexTo].stones.push(stone);
   } // end Player.moveStone
+
+  // Player.getFullCellsIdxs()
+  getFullCellsIdxs()
+  {
+    let indexes = [];
+    for (let cell in this.cells)
+    {
+      if (cell.state == "FULL")
+      {
+        indexes.push(cell.index);
+      }
+    }
+    return indexes;
+  } // end Player.getFullCellsIdxs()
 }
