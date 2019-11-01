@@ -7,6 +7,7 @@ class GameManager
     this.cellSelected = false;
     this.cellActive   = false;
     this.selectedCell = null;
+    this.state = STATES.standby;
   } // end GameManager()
 
   // GameManager.createGame
