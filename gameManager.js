@@ -105,30 +105,24 @@ class GameManager
     game.opponent.show();
 
     // Show remaining moves of each Player
+    let blueMoves = game.player.moves;
+    let redMoves  = game.opponent.moves;
+    if (game.player.color == "RED")
+    {
+      blueMoves = game.opponent.moves;
+      redMoves  = game.player.moves;
+    }
+
     push();
     strokeWeight(5);
     stroke(300,0,0);
     rectMode(CENTER);
     textAlign(RIGHT, CENTER);
     textSize(32);
-    if (game.player.color == "BLUE")
-    {
-      let c = color(210,100,100);
-      fill(c);
-      text("Remaining moves: " + game.player.moves, 425, height/2);
-      c = color(20,100,100);
-      fill(c);
-      textAlign(RIGHT, CENTER);
-      text("Remaining moves: " + game.opponent.moves, width-130, height/2);
-    } else {
-      let c = color(210,100,100);
-      fill(c);
-      text("Remaining moves: " + game.opponent.moves, 425, height/2);
-      c = color(20,100,100);
-      fill(c);
-      textAlign(RIGHT, CENTER);
-      text("Remaining moves: " + game.player.moves, width-130, height/2);
-    }
+    fill(color(210,100,100)); // Bluish
+    text("Remaining moves: " + blueMoves, 425, height/2);
+    fill(color(20,100,100)); // Redish
+    text("Remaining moves: " + redMoves, width-130, height/2);
     pop();
   } // end GameManager.show
 
