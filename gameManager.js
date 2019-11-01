@@ -199,16 +199,16 @@ class GameManager
   // GameManager.isGameOver
   isGameOver()
   {
-    if (game.player.moves == 0)
+    if (this.player.moves == 0)
     {
-      game.gameOverScreen(game.player.color+' wins!');
-      game.standby = false;
+      this.gameOverScreen(this.player.color+' wins!');
+      this.standby = false;
       return true;
     }
-    if (game.opponent.moves == 0)
+    if (this.opponent.moves == 0)
     {
-      game.gameOverScreen(game.opponent.color+' wins!');
-      game.standby = false;
+      this.gameOverScreen(this.opponent.color+' wins!');
+      this.standby = false;
       return true;
     }
     return false;
