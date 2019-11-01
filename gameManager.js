@@ -152,11 +152,11 @@ class GameManager
   } // end GameManager.gameOverScreen
 
   // GameManager.checkClick
-  checkClick(player,x,y,enemy)
+  checkClick(x,y)
   {
     // Check if Cell of current Player has been clicked
     // and do pertinent action if needed
-    for(let cell of player.cells)
+    for(let cell of this.player.cells)
     {
       if(cell.isClicked(x, y))
       {
@@ -164,7 +164,7 @@ class GameManager
         {
           if(this.selectedCell != null)
           {
-            player.cells[this.selectedCell].state = "FULL";
+            this.player.cells[this.selectedCell].state = "FULL";
           }
           this.selectedCell = cell.index;
           cell.state = "SELECTED";
@@ -177,14 +177,14 @@ class GameManager
           this.cellSelected = false;
           this.cellActive   = true;
 
-          let nextAction = player.passStones(cell.index,enemy);
+          let nextAction = this.player.passStones(cell.index,this.opponent);
           while (nextAction.isActive)
           {
             if(nextAction.isToSteal)
             {
-              player.stealStones(nextAction.onIndex,enemy);
+              this.player.stealStones(nextAction.onIndex,this.opponent);
             }
-            nextAction = player.passStones(nextAction.onIndex,enemy);
+            nextAction = this.player.passStones(nextAction.onIndex,this.opponent);
           }
 
           this.cellActive = false;

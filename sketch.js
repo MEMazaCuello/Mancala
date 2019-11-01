@@ -25,6 +25,6 @@ function mouseClicked()
 {
   if(game.standby || game.cellSelected)
   {
-    game.checkClick(game.player,mouseX,mouseY,game.opponent);
+    game.checkClick(mouseX,mouseY);
   }
 }
