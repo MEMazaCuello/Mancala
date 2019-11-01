@@ -173,7 +173,6 @@ class GameManager
           this.cellActive   = true;
 
           let nextAction = player.passStones(cell.index,enemy);
-          console.log(nextAction);
           while (nextAction.isActive)
           {
             if(nextAction.isToSteal)
@@ -181,7 +180,6 @@ class GameManager
               player.stealStones(nextAction.onIndex,enemy);
             }
             nextAction = player.passStones(nextAction.onIndex,enemy);
-            console.log(nextAction);
           }
 
           this.cellActive = false;
