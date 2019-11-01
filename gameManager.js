@@ -172,7 +172,17 @@ class GameManager
           this.cellSelected = false;
           this.cellActive   = true;
 
-          player.passStones(cell.index,enemy);
+          let nextAction = player.passStones(cell.index,enemy);
+          console.log(nextAction);
+          while (nextAction.isActive)
+          {
+            if(nextAction.isToSteal)
+            {
+              player.stealStones(nextAction.onIndex,enemy);
+            }
+            nextAction = player.passStones(nextAction.onIndex,enemy);
+            console.log(nextAction);
+          }
 
           this.cellActive = false;
           this.standby = true;

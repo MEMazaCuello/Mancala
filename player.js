@@ -38,15 +38,19 @@ class Player {
     cell.state = "EMPTY";
     this.moves--;
     // Recursive call if last target Cell is Full
+    let nextAction = {isToSteal: false, isActive: false, onIndex: nextIdx};
     if(this.cells[nextIdx].state == "FULL")
     {
       // Steal Stones if necessary
       if(nextIdx > 7)
       {
-        this.stealStones(nextIdx,enemy);
+        nextAction.isToSteal = true;
+        //this.stealStones(nextIdx,enemy);
       }
-      this.passStones(nextIdx,enemy);
+      nextAction.isActive = true;
+      //this.passStones(nextIdx,enemy);
     }
+    return nextAction;
   } // end Player.passStones
 
   // Player.stealStones
