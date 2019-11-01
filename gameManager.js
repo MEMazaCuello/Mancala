@@ -201,13 +201,13 @@ class GameManager
   {
     if (this.player.moves == 0)
     {
-      this.gameOverScreen(this.player.color+' wins!');
+      this.gameOverScreen(this.opponent.color+' wins!');
       this.standby = false;
       return true;
     }
     if (this.opponent.moves == 0)
     {
-      this.gameOverScreen(this.opponent.color+' wins!');
+      this.gameOverScreen(this.player.color+' wins!');
       this.standby = false;
       return true;
     }
