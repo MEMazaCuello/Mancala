@@ -5,9 +5,8 @@ class GameManager
   {
     this.standby = true;
     this.cellSelected = false;
-    this.cellActive = false;
-    this.turn = "A";
-    this.current = -1;
+    this.cellActive   = false;
+    this.selectedCell = null;
   } // end GameManager()
 
   // GameManager.createGame
@@ -52,7 +51,7 @@ class GameManager
       }
     }
     // Create Player B
-    this.playerB = new Player(cells);
+    this.opponent = new Player(cells,"RED");
 
     //* Player A (page bottom) *//
     cells = []; stones = [];
@@ -91,50 +90,56 @@ class GameManager
       }
     }
     // Create Player A
-    this.playerA = new Player(cells);
+    this.player = new Player(cells,"BLUE");
   } // end GameManager.createGame
 
   // GameManager.show
   show()
   {
     // Show Player status
-    game.playerA.show();
-    game.playerB.show();
+    game.player.show();
+    game.opponent.show();
 
     // Show remaining moves of each Player
     push();
-    let c = color(210,100,100);
-    fill(c);
     strokeWeight(5);
     stroke(300,0,0);
     rectMode(CENTER);
     textAlign(RIGHT, CENTER);
     textSize(32);
-    text("Remaining moves: " + game.playerA.moves, 425, height/2);
-    c = color(20,100,100);
-    fill(c);
-    textAlign(RIGHT, CENTER);
-    text("Remaining moves: " + game.playerB.moves, width-130, height/2);
+    if (game.player.color == "BLUE")
+    {
+      let c = color(210,100,100);
+      fill(c);
+      text("Remaining moves: " + game.player.moves, 425, height/2);
+      c = color(20,100,100);
+      fill(c);
+      textAlign(RIGHT, CENTER);
+      text("Remaining moves: " + game.opponent.moves, width-130, height/2);
+    } else {
+      let c = color(210,100,100);
+      fill(c);
+      text("Remaining moves: " + game.opponent.moves, 425, height/2);
+      c = color(20,100,100);
+      fill(c);
+      textAlign(RIGHT, CENTER);
+      text("Remaining moves: " + game.player.moves, width-130, height/2);
+    }
     pop();
   } // end GameManager.show
 
   // GameManager.changeTurn
   changeTurn()
   {
-    this.current = -1;
+    this.selectedCell = null;
 
-    if(this.turn == "A")
-    {
-      this.turn = "B";
-    }
-    else if(this.turn == "B")
-    {
-      this.turn = "A";
-    }
+    let temp = this.player;
+    this.player   = this.opponent;
+    this.opponent = temp;
   } // end GameManager.changeTurn
 
-  // GameManager.gameOver
-  gameOver(winner)
+  // GameManager.gameOverScreen
+  gameOverScreen(winner)
   {
     // Game Over screen
     colorMode(RGB)
@@ -144,7 +149,7 @@ class GameManager
     textAlign(CENTER,CENTER);
     textSize(72);
     text(winner,width/2,height/2);
-  } // end GameManager.gameOver
+  } // end GameManager.gameOverScreen
 
   // GameManager.checkClick
   checkClick(player,x,y,enemy)
@@ -157,11 +162,11 @@ class GameManager
       {
         if(cell.state == "FULL")
         {
-          if(this.current != -1)
+          if(this.selectedCell != null)
           {
-            player.cells[this.current].state = "FULL";
+            player.cells[this.selectedCell].state = "FULL";
           }
-          this.current = cell.index;
+          this.selectedCell = cell.index;
           cell.state = "SELECTED";
           this.cellSelected = true;
           this.standby = false;
@@ -190,4 +195,22 @@ class GameManager
       }
     }
   } // end GameManager.checkClick
+
+  // GameManager.isGameOver
+  isGameOver()
+  {
+    if (game.player.moves == 0)
+    {
+      game.gameOverScreen(game.player.color+' wins!');
+      game.standby = false;
+      return true;
+    }
+    if (game.opponent.moves == 0)
+    {
+      game.gameOverScreen(game.opponent.color+' wins!');
+      game.standby = false;
+      return true;
+    }
+    return false;
+  } // end GameManager.isGameOver
 }

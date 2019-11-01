@@ -1,7 +1,8 @@
 class Player {
   // Player()
-  constructor(cells) {
+  constructor(cells, sColor) {
     this.cells = cells;
+    this.color = sColor; // String
     this.moves = 12;
   } // end Player()
 
