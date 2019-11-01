@@ -7,7 +7,7 @@ class GameManager
     this.cellSelected = false;
     this.cellActive   = false;
     this.selectedCell = null;
-    this.state = STATES.standby;
+    this.state = GAME_STATES.standby;
     this.clickableCells = []; // array of indexes
   } // end GameManager()
 
@@ -141,7 +141,7 @@ class GameManager
     this.player   = this.opponent;
     this.opponent = temp;
 
-    this.clickableCells = this.player.getFullCellsIdxs(); 
+    this.clickableCells = this.player.getFullCellsIdxs();
   } // end GameManager.changeTurn
 
   // GameManager.gameOverScreen

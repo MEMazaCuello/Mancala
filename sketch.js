@@ -1,6 +1,6 @@
-const STATES = {standby: "standby",
+const GAME_STATES = {standby:  "standby",
                 selected: "selected",
-                active: "active",
+                active:   "active",
                 stealing: "stealing"};
 let RADIUS = 50;
 let game;
