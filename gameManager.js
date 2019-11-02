@@ -181,7 +181,7 @@ class GameManager
   {
     this.state = GAME_STATES.gameOver;
     this.clickableCells = [];
-    winner = (this.player.moves == 0)? this.opponent.color : this.player.color;
+    let winner = (this.player.moves == 0)? this.opponent.color : this.player.color;
     this.gameOverScreen(winner);
   }// end GameManager.endGame
 
