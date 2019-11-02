@@ -146,7 +146,7 @@ class GameManager
     fill(255);
     textAlign(CENTER,CENTER);
     textSize(72);
-    text(winner,width/2,height/2);
+    text(winner+' wins!',width/2,height/2);
   } // end GameManager.gameOverScreen
 
   // GameManager.checkClick
@@ -173,20 +173,17 @@ class GameManager
   // GameManager.isGameOver
   isGameOver()
   {
-    if (this.player.moves == 0)
-    {
-      this.gameOverScreen(this.opponent.color+' wins!');
-      this.state = GAME_STATES.gameOver;
-      return true;
-    }
-    if (this.opponent.moves == 0)
-    {
-      this.gameOverScreen(this.player.color+' wins!');
-      this.state = GAME_STATES.gameOver;
-      return true;
-    }
-    return false;
+    return (this.player.moves == 0 || this.opponent.moves == 0);
   } // end GameManager.isGameOver
+
+  // GameManager.endGame
+  endGame()
+  {
+    this.state = GAME_STATES.gameOver;
+    this.clickableCells = [];
+    winner = (this.player.moves == 0)? this.opponent.color : this.player.color;
+    this.gameOverScreen(winner);
+  }// end GameManager.endGame
 
   // GameManager.select
   select(index)
@@ -217,5 +214,5 @@ class GameManager
       }
       nextAction = this.player.passStones(nextAction.onIndex,this.opponent);
     }
-  } // end GameManager.select
+  } // end GameManager.moving
 }

@@ -22,7 +22,7 @@ function draw()
 
   if (game.isGameOver())
   {
-    game.clickableCells = [];
+    game.endGame();
     noLoop();
   }
 }
