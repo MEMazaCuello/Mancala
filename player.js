@@ -101,7 +101,7 @@ class Player {
   getFullCellsIdxs()
   {
     let indexes = [];
-    for (let cell in this.cells)
+    for (let cell of this.cells)
     {
       if (cell.state == "FULL")
       {
