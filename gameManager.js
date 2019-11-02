@@ -3,9 +3,6 @@ class GameManager
   // GameManager()
   constructor()
   {
-    this.standby = true;
-    this.cellSelected = false;
-    this.cellActive   = false;
     this.selectedCell = null;
     this.state = GAME_STATES.standby;
     this.clickableCells = []; // array of indexes
@@ -130,12 +127,13 @@ class GameManager
   changeTurn()
   {
     this.selectedCell = null;
-
+    // Swap players
     let temp = this.player;
     this.player   = this.opponent;
     this.opponent = temp;
-
+    // Get clickableCells
     this.clickableCells = this.player.getFullCellsIdxs();
+    this.state = GAME_STATES.standby;
   } // end GameManager.changeTurn
 
   // GameManager.gameOverScreen
@@ -156,43 +154,19 @@ class GameManager
   {
     // Check if Cell of current Player has been clicked
     // and do pertinent action if needed
-    for(let cell of this.player.cells)
+    for (const cellIdx of this.clickableCells)
     {
-      if(cell.isClicked(x, y))
+      if (this.player.cells[cellIdx].isClicked(x, y))
       {
-        if(cell.state == "FULL")
-        {
-          if(this.selectedCell != null)
-          {
-            this.player.cells[this.selectedCell].state = "FULL";
-          }
-          this.selectedCell = cell.index;
-          cell.state = "SELECTED";
-          this.cellSelected = true;
-          this.standby = false;
-          break;
-        }
-        else if(cell.state ==  "SELECTED")
-        {
-          this.cellSelected = false;
-          this.cellActive   = true;
-
-          let nextAction = this.player.passStones(cell.index,this.opponent);
-          while (nextAction.isActive)
-          {
-            if(nextAction.isToSteal)
-            {
-              this.player.stealStones(nextAction.onIndex,this.opponent);
-            }
-            nextAction = this.player.passStones(nextAction.onIndex,this.opponent);
-          }
-
-          this.cellActive = false;
-          this.standby = true;
-          this.changeTurn();
-          break;
-        }
+        this.select(cellIdx);
+        break;
       }
+    }
+
+    if (this.state == GAME_STATES.active)
+    {
+      this.moving();
+      this.changeTurn();
     }
   } // end GameManager.checkClick
 
@@ -202,15 +176,46 @@ class GameManager
     if (this.player.moves == 0)
     {
       this.gameOverScreen(this.opponent.color+' wins!');
-      this.standby = false;
+      this.state = GAME_STATES.gameOver;
       return true;
     }
     if (this.opponent.moves == 0)
     {
       this.gameOverScreen(this.player.color+' wins!');
-      this.standby = false;
+      this.state = GAME_STATES.gameOver;
       return true;
     }
     return false;
   } // end GameManager.isGameOver
+
+  // GameManager.select
+  select(index)
+  {
+    if (this.selectedCell == null)
+    {
+      this.selectedCell = index;
+      this.player.cells[index].state = "SELECTED";
+      this.state = GAME_STATES.selected;
+    } else if (index != this.selectedCell) {
+      this.player.cells[this.selectedCell].state = "FULL";
+      this.selectedCell = index;
+      this.player.cells[index].state = "SELECTED";
+    } else {
+      this.state = GAME_STATES.active;
+    }
+  } // end GameManager.select
+
+  // GameManager.moving
+  moving()
+  {
+    let nextAction = this.player.passStones(this.selectedCell,this.opponent);
+    while (nextAction.isActive)
+    {
+      if(nextAction.isToSteal)
+      {
+        this.player.stealStones(nextAction.onIndex,this.opponent);
+      }
+      nextAction = this.player.passStones(nextAction.onIndex,this.opponent);
+    }
+  } // end GameManager.select
 }

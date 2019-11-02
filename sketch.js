@@ -1,7 +1,8 @@
 const GAME_STATES = {standby:  "standby",
                 selected: "selected",
                 active:   "active",
-                stealing: "stealing"};
+                stealing: "stealing",
+                gameOver: "gameOver"};
 let RADIUS = 50;
 let game;
 
@@ -28,7 +29,8 @@ function draw()
 
 function mouseClicked()
 {
-  if(game.standby || game.cellSelected)
+  //if(game.standby || game.cellSelected)
+  if (game.state == GAME_STATES.standby || game.state == GAME_STATES.selected)
   {
     game.checkClick(mouseX,mouseY);
   }
