@@ -14,6 +14,7 @@ class Stone
     this.c   = color(random(0,359),100,100); // color HSB
     this.maxSpeed = 20;
     this.maxForce = 7;
+    this.moving = false;
   } // end Stone()
 
   // Stone.show
@@ -67,6 +68,7 @@ class Stone
     let speed = this.maxSpeed;
     if (d < this.r)
     {
+      this.moving = false;
       speed = map(d,0,this.r,0,this.maxSpeed);
     }
     diff.setMag(speed);

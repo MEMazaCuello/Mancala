@@ -24,9 +24,9 @@ function draw()
   if (game.hasBeenActivated())
   {
     game.moving();
-    game.changeTurn();
   }
 
+  game.resolve();
   game.show();
   if (game.isGameOver())
   {
