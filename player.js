@@ -8,7 +8,7 @@ class Player {
 
   // Player.show
   show(){
-    for(let cell of this.cells)
+    for (let cell of this.cells)
     {
       cell.show();
     }
@@ -22,7 +22,7 @@ class Player {
     let i = 0;
     let nextIdx = 0;
     // Move one Stone to each next Cell
-    while(cell.stones.length > 0)
+    while (cell.stones.length > 0)
     {
       i++;
       nextIdx = (idx+i)%16;
@@ -40,10 +40,10 @@ class Player {
     this.moves--;
     // Recursive call if last target Cell is Full
     let nextAction = {isToSteal: false, isActive: false, onIndex: nextIdx};
-    if(this.cells[nextIdx].state == "FULL")
+    if (this.cells[nextIdx].state == "FULL")
     {
       // Steal Stones if necessary
-      if(nextIdx > 7)
+      if (nextIdx > 7)
       {
         nextAction.isToSteal = true;
         //this.stealStones(nextIdx,enemy);
@@ -59,28 +59,28 @@ class Player {
   {
     // Steal Stones from enemy Cell
     let cell = enemy.cells[this.cells[index].enemy];
-    if(cell.stones.length > 0)
+    if (cell.stones.length > 0)
     {
-      while(cell.stones.length > 0)
+      while (cell.stones.length > 0)
       {
         this.moveStone(cell,index) // cellFrom, indexTo
       }
       // This check is necessary for the cases
       // when the Cell has only 1 (one) Stone
-      if(cell.state != "EMPTY")
+      if (cell.state != "EMPTY")
       {
         cell.state = "EMPTY";
         enemy.moves--;  // Loses one move iff 2 or more Stones
       }
       // Steal also from back row as well, if needed
       cell = enemy.cells[cell.back];
-      while(cell.stones.length > 0)
+      while (cell.stones.length > 0)
       {
         this.moveStone(cell,index) // cellFrom, indexTo
       }
       // This check is necessary for the cases
       // when the Cell has only 1 (one) Stone
-      if(cell.state != "EMPTY")
+      if (cell.state != "EMPTY")
       {
         cell.state = "EMPTY";
         enemy.moves--;  // Loses one move iff 2 or more Stones

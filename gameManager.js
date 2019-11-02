@@ -19,7 +19,7 @@ class GameManager
     let stones = [];
     let c = color(20,100,100);
     // Back row: all Cells have two Stones
-    for(let i = 0; i < 8 ; i++)
+    for (let i = 0; i < 8 ; i++)
     {
       idxCell = i;
       let x = 75 + (7-i)*(2*RADIUS+25);
@@ -32,13 +32,13 @@ class GameManager
     }
 
     // Front row: first four Cells have two Stones
-    for(let i = 0; i < 8 ; i++)
+    for (let i = 0; i < 8 ; i++)
     {
       idxCell = 8+i;
       let x =  75 + i*(2*RADIUS+25);
       let y = 110 + 2*RADIUS;
       cells.push(new FrontCell(x,y,RADIUS,c,idxCell));
-      if( i < 4 )
+      if ( i < 4 )
       {
         cells[idxCell].stones.push(new Stone(x,y,0.3*RADIUS,idxStone));
         idxStone++;
@@ -57,7 +57,7 @@ class GameManager
     c = color(210,100,100);
 
     // Back row: all Cells have two Stones
-    for(let i = 0; i < 8 ; i++)
+    for (let i = 0; i < 8 ; i++)
     {
       idxCell = i;
       let x =  75 + i*(2*RADIUS+25);
@@ -70,13 +70,13 @@ class GameManager
     }
 
     // Front row: first four Cells have two Stones
-    for(let i = 0; i < 8 ; i++)
+    for (let i = 0; i < 8 ; i++)
     {
       idxCell = 8+i;
       let x = 75 + (7-i)*(2*RADIUS+25);
       let y = 385;
       cells.push(new FrontCell(x,y,RADIUS,c,idxCell));
-      if( i < 4 )
+      if ( i < 4 )
       {
         cells[idxCell].stones.push(new Stone(x,y,0.3*RADIUS,idxStone));
         idxStone++;
@@ -208,7 +208,7 @@ class GameManager
     let nextAction = this.player.passStones(this.selectedCell,this.opponent);
     while (nextAction.isActive)
     {
-      if(nextAction.isToSteal)
+      if (nextAction.isToSteal)
       {
         this.player.stealStones(nextAction.onIndex,this.opponent);
       }

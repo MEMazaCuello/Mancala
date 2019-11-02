@@ -65,7 +65,7 @@ class Stone
     let diff = p5.Vector.sub(this.target, this.pos);
     let d = diff.mag();
     let speed = this.maxSpeed;
-    if(d < this.r)
+    if (d < this.r)
     {
       speed = map(d,0,this.r,0,this.maxSpeed);
     }

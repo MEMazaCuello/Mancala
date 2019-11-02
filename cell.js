@@ -16,7 +16,7 @@ class Cell
   show()
   {
     // Different colours depending on cell state
-    if(this.state == "SELECTED")
+    if (this.state == "SELECTED")
     {
       push();
       fill(120,100,100);
@@ -26,7 +26,7 @@ class Cell
       ellipse(this.x, this.y, 2*this.r);
       pop();
 
-      for(let stone of this.stones)
+      for (let stone of this.stones)
       {
         //stone.shake(this.x, this.y, this.r);
         stone.update();
@@ -53,7 +53,7 @@ class Cell
       ellipse(this.x, this.y, 2*this.r);
       pop();
 
-      for(let stone of this.stones)
+      for (let stone of this.stones)
       {
         stone.update();
       }
