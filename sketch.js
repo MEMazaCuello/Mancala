@@ -2,7 +2,8 @@ const GAME_STATES = {standby:  "standby",
                 selected: "selected",
                 active:   "active",
                 stealing: "stealing",
-                gameOver: "gameOver"};
+                gameOver: "gameOver",
+                waiting: "waiting"};
 let RADIUS = 50;
 let game;
 
@@ -13,13 +14,20 @@ function setup()
 
   game = new GameManager();
   game.createGame();
+  game.show();
 }
 
 function draw()
 {
   background(0,0,8);
-  game.show();
 
+  if (game.hasBeenActivated())
+  {
+    game.moving();
+    game.changeTurn();
+  }
+
+  game.show();
   if (game.isGameOver())
   {
     game.endGame();
@@ -29,8 +37,7 @@ function draw()
 
 function mouseClicked()
 {
-  //if(game.standby || game.cellSelected)
-  if (game.state == GAME_STATES.standby || game.state == GAME_STATES.selected)
+  if (game.isWaitingInput())
   {
     game.checkClick(mouseX,mouseY);
   }

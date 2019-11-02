@@ -163,11 +163,11 @@ class GameManager
       }
     }
 
-    if (this.state == GAME_STATES.active)
-    {
-      this.moving();
-      this.changeTurn();
-    }
+    // if (this.state == GAME_STATES.active)
+    // {
+    //   this.moving();
+    //   this.changeTurn();
+    // }
   } // end GameManager.checkClick
 
   // GameManager.isGameOver
@@ -205,6 +205,7 @@ class GameManager
   // GameManager.moving
   moving()
   {
+    this.state = GAME_STATES.waiting;
     let nextAction = this.player.passStones(this.selectedCell,this.opponent);
     while (nextAction.isActive)
     {
@@ -215,4 +216,16 @@ class GameManager
       nextAction = this.player.passStones(nextAction.onIndex,this.opponent);
     }
   } // end GameManager.moving
+
+  // GameManager.hasBeenActivated
+  hasBeenActivated()
+  {
+    return (this.state == GAME_STATES.active);
+  } // end GameManager.hasBeenActivated
+
+  // GameManager.isWaitingInput
+  isWaitingInput()
+  {
+    return (this.state == GAME_STATES.standby || this.state == GAME_STATES.selected);
+  } // end GameManager.isWaitingInput
 }
