@@ -20,19 +20,8 @@ function setup()
 function draw()
 {
   background(0,0,8);
-
-  if (game.hasBeenActivated())
-  {
-    game.moving();
-  }
-
-  game.resolve();
   game.show();
-  if (game.isGameOver())
-  {
-    game.endGame();
-    noLoop();
-  }
+  game.resolve();
 }
 
 function mouseClicked()

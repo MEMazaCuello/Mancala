@@ -186,13 +186,14 @@ class GameManager
   // GameManager.select
   select(index)
   {
+    // Select / activate clicked Cell
     if (this.selectedCell == null)
     {
       this.selectedCell = index;
       this.player.cells[index].state = "SELECTED";
       this.state = GAME_STATES.selected;
     } else if (index != this.selectedCell) {
-      this.player.cells[this.selectedCell].state = "FULL";
+      this.player.cells[this.selectedCell].state = "FULL"; // deselect previous
       this.selectedCell = index;
       this.player.cells[index].state = "SELECTED";
     } else {
@@ -208,34 +209,56 @@ class GameManager
     this.selectedCell = this.nextAction.onIndex;
   } // end GameManager.moving
 
+  // GameManager.stealing
+  stealing()
+  {
+    this.state = GAME_STATES.stealing;
+    this.nextAction.stones = this.player.stealStones(this.nextAction.onIndex,this.opponent);
+    this.nextAction.isToSteal = false;
+  } // end GameManager.stealing
+
+  // GameManager.activating
+  activating()
+  {
+    this.selectedCell = this.nextAction.onIndex;
+    this.state = GAME_STATES.active;
+  } // GameManager.activating
+
   resolve()
   {
+    // Activate player's move
+    if (this.hasBeenActivated())
+    {
+      this.moving();
+      return;
+    }
+    // Resolve next action
     if (this.nextAction != null)
     {
+      // Don't resolve if some stone keeps moving
       for (let stone of this.nextAction.stones)
       {
         if (stone.moving)
         {
-          return;
+          return; // Wait until animation is done
         }
       }
+      // Launch next step: steal / move / game over / change turn
       if (this.nextAction.isActive)
       {
         if (this.nextAction.isToSteal)
         {
-          this.state = GAME_STATES.stealing;
-          this.nextAction.stones = this.player.stealStones(this.nextAction.onIndex,this.opponent);
-          this.nextAction.isToSteal = false;
+          this.stealing(); // Steal
           return;
         }
-        this.selectedCell = this.nextAction.onIndex;
-        this.state = GAME_STATES.active;
-        //this.nextAction = this.player.passStones(this.nextAction.onIndex,this.opponent);
-      } else {
-        if (this.isWaiting())
+        this.activating(); // Move
+      } else if (this.isWaiting()) {
+        if (this.isGameOver())
         {
-          this.changeTurn();
+          this.endGame();  // Game Over
+          noLoop();
         }
+        this.changeTurn(); // Change turn
       }
     }
   }
@@ -252,8 +275,9 @@ class GameManager
     return (this.state == GAME_STATES.standby || this.state == GAME_STATES.selected);
   } // end GameManager.isWaitingInput
 
+  // GameManager.isWaiting
   isWaiting()
   {
     return (this.state == GAME_STATES.waiting);
-  }
+  } // end GameManager.isWaiting
 }

@@ -90,7 +90,6 @@ class Player {
         cell.state = "EMPTY";
         enemy.moves--;  // Loses one move iff 2 or more Stones
       }
-
       return movingStones;
     }
   } // end Player.stealStones
