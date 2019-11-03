@@ -100,18 +100,23 @@ class GameManager
   show()
   {
     // Show Player status
-    game.player.show();
-    game.opponent.show();
+    this.player.show();
+    this.opponent.show();
+    this.showMoves();
+  } // end GameManager.show
 
+  // GameManager.showMoves
+  showMoves()
+  {
     // Show remaining moves of each Player
-    let blueMoves = game.player.moves;
-    let redMoves  = game.opponent.moves;
-    if (game.player.color == "RED")
+    let blueMoves = this.player.moves;
+    let redMoves  = this.opponent.moves;
+    if (this.player.color == "RED")
     {
-      blueMoves = game.opponent.moves;
-      redMoves  = game.player.moves;
+      blueMoves = this.opponent.moves;
+      redMoves  = this.player.moves;
     }
-
+    // Draw
     push();
     strokeWeight(5);
     stroke(300,0,0);
@@ -123,7 +128,7 @@ class GameManager
     fill(color(20,100,100)); // Redish
     text("Remaining moves: " + redMoves, width-130, height/2);
     pop();
-  } // end GameManager.show
+  } // end GameManager.showMoves
 
   // GameManager.changeTurn
   changeTurn()
@@ -222,8 +227,9 @@ class GameManager
   {
     this.selectedCell = this.nextAction.onIndex;
     this.state = GAME_STATES.active;
-  } // GameManager.activating
+  } // end GameManager.activating
 
+  // GameManager.resolve
   resolve()
   {
     // Activate player's move
@@ -261,7 +267,7 @@ class GameManager
         this.changeTurn(); // Change turn
       }
     }
-  }
+  } // end GameManager.resolve
 
   // GameManager.hasBeenActivated
   hasBeenActivated()
