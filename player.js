@@ -27,21 +27,30 @@ class Player {
     {
       i++;
       nextIdx = (idx+i)%16;
-      // Pop Stone from current Cell and push it into target Cell
-      let stone = this.moveStone(cell,nextIdx) // cellFrom, indexTo
-      movingStones.push(stone);
+      // Move stone: cellFrom, indexTo. Activate animation
+      movingStones.push(this.moveStone(cell,nextIdx));
       // Update target Cell state
-      if(this.cells[nextIdx].state == "EMPTY" && this.cells[nextIdx].stones.length > 1)
+      if(this.cells[nextIdx].isNowFull())
       {
-        this.cells[nextIdx].state = "FULL";
         this.moves++;
       }
     }
     // Current Cell is now Empty, thus the Player loses a move
     cell.state = "EMPTY";
     this.moves--;
-    // Recursive call if last target Cell is Full
-    let nextAction = {isToSteal: false, isActive: false, onIndex: nextIdx, stones: movingStones};
+    // Decide next state of the game: Steal / Move / Change Turn
+    return this.decideNextAction(nextIdx,movingStones,enemy);
+  } // end Player.passStones
+
+  // Player.nextAction
+  decideNextAction(nextIdx,movingStones,enemy)
+  {
+    let nextAction = {
+      isToSteal: false,
+      isActive: false,
+      onIndex: nextIdx,
+      stones: movingStones};
+    // Change booleans if necessary
     if (this.cells[nextIdx].state == "FULL")
     {
       if (nextIdx > 7)
@@ -54,45 +63,47 @@ class Player {
       nextAction.isActive = true;
     }
     return nextAction;
-  } // end Player.passStones
+  } // end Player.nextAction
 
   // Player.stealStones
-  stealStones(index,enemy)
+  stealStones(indexTo,enemy)
   {
     // Steal Stones from enemy Cell
     let movingStones = [];
-    let cell = enemy.cells[this.cells[index].enemy];
+    let cell = enemy.cells[this.cells[indexTo].enemy];
     if (cell.stones.length > 0)
     {
-      while (cell.stones.length > 0)
+      let wasFull = this.emptyCell(cell,indexTo,movingStones);
+      if (wasFull)
       {
-        let stone = this.moveStone(cell,index) // cellFrom, indexTo
-        movingStones.push(stone);
-      }
-      // This check is necessary for the cases
-      // when the Cell has only 1 (one) Stone
-      if (cell.state != "EMPTY")
-      {
-        cell.state = "EMPTY";
         enemy.moves--;  // Loses one move iff 2 or more Stones
       }
       // Steal also from back row as well, if needed
-      cell = enemy.cells[cell.back];
-      while (cell.stones.length > 0)
+      wasFull = this.emptyCell(enemy.cells[cell.back],indexTo,movingStones);
+      if (wasFull)
       {
-        let stone = this.moveStone(cell,index) // cellFrom, indexTo
-        movingStones.push(stone);
-      }
-      // This check is necessary for the cases
-      // when the Cell has only 1 (one) Stone
-      if (cell.state != "EMPTY")
-      {
-        cell.state = "EMPTY";
         enemy.moves--;  // Loses one move iff 2 or more Stones
       }
       return movingStones;
     }
   } // end Player.stealStones
+
+  // Player.emptyCell()
+  emptyCell(cellFrom,indexTo,movingStones)
+  {
+    while (cellFrom.stones.length > 0)
+    {
+      movingStones.push(this.moveStone(cellFrom,indexTo));
+    }
+    // This check is necessary for the cases
+    // when the Cell has only 1 (one) Stone
+    if (cellFrom.state != "EMPTY")
+    {
+      cellFrom.state = "EMPTY";
+      return true;
+    }
+    return false;
+  } // end Player.emptyCell()
 
   // Player.moveStone
   moveStone(cellFrom,indexTo)

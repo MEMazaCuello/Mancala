@@ -67,4 +67,14 @@ class Cell
     return sq(this.x - x) + sq(this.y - y) < this.r*this.r;
   } // end Cell.isClicked
 
+  isNowFull()
+  {
+    if (this.state == "EMPTY" && this.stones.length > 1)
+    {
+      this.state = "FULL";
+      return true;
+    }
+    return false;
+  }
+
 }
